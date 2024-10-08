@@ -3,7 +3,7 @@ import sys
 from typing import Dict, List
 
 #######################################################################
-# Problem - READY TO GO, NOT SUBMITTED
+# Problem - READY TO GO, NOT SUBMITTED (first try!)
 #######################################################################
 problem = """
 

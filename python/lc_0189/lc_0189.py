@@ -4,7 +4,7 @@ import sys
 from typing import Dict, List
 
 #######################################################################
-# Problem
+# Problem (DONE, READY FOR SUBMISSION) GOT SECOND TRY
 #######################################################################
 problem = """
 Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.
@@ -39,6 +39,7 @@ Follow up:
 
 Try to come up with as many solutions as you can. There are at least three different ways to solve this problem.
 Could you do it in-place with O(1) extra space?
+
 """
 
 #######################################################################
@@ -47,6 +48,9 @@ Could you do it in-place with O(1) extra space?
 
 notes = """
 
+Simple idea is to create a second array
+
+GENIUS IDEA (that I had to look up) - just SORT THE sub-parts of the array
 """
  
 
@@ -63,7 +67,8 @@ class Solution:
         ]
         return new_arr
 
-    def rotateArray(self, nums: List[int], rotated: int):
+    # Hop method, tricky and does not work well (or at all)
+    def rotateArrayHops(self, nums: List[int], rotated: int):
         l = len(nums)
         hold = nums[0]
         shift = (rotated)%l
@@ -77,18 +82,36 @@ class Solution:
         nums[shift], hold = hold, nums[shift]
         
         return nums
+    
+    def rotateArray(self, nums: List[int], rotated: int):
+        arr_len = len(nums)
+        rotated = rotated % arr_len # ERROR BECAUSE I FORGOT THIS
+        self.reverse(nums, 0, arr_len-1)
+        self.reverse(nums, 0, rotated-1)
+        self.reverse(nums, rotated, arr_len-1)
+
+    def reverse(self, arr: List[int], start:int, end: int):
+
+        while start < end:
+            arr[start], arr[end] = arr[end], arr[start]
+            start += 1
+            end -=1
             
 
 
 sol = Solution()
 
-arr =[1,2,3,4] 
+arr =[1,2,3] 
 """
-[1,2,3,4]
+start = [1,2,3,4] end = [2,3,4,1] (rotate = 3)
+r1: [4,3,2,1] 
+r2: [2,3,4,1] (start= 0, end = 0)
+r3: [4,1,2,3] (start = rotate, end=len(arr))
 [3,2,1,4]
 [3,2,1,4]
 """
-print(sol.rotateArray(arr,2))
+print(sol.rotateArray(arr,4))
+print(arr)
 
     
  
