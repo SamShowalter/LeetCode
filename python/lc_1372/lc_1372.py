@@ -3,7 +3,7 @@ import sys
 from typing import Dict, List, Optional
 
 #######################################################################
-# Problem # 1372 2026-01-11 Start time: 20:31 End time: 20:31
+# Problem # 1372 2026-01-12 Start time: 19:00 End time: 19:09
 #######################################################################
 problem = """
 1372. Longest ZigZag Path in a Binary Tree
@@ -52,6 +52,7 @@ The number of nodes in the tree is in the range [1, 5 * 104].
 #######################################################################
 
 notes = """
+<<<<<<< Updated upstream
 The longest path must start at root?
 - No it doesn't
 
@@ -59,12 +60,14 @@ Track the max through a class variable?
 
 Running into an issue with 
 
+=======
+GOT IT!! Main mistake was not adding the minus 1
+>>>>>>> Stashed changes
 """
 
 #######################################################################
 # Solution
 #######################################################################
-
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -73,26 +76,22 @@ class TreeNode:
         self.right = right
         
 class Solution:
-    def _longestZigZag(self, root, last_dir: str, currLen: int) -> None:
-        self.maxZigZag = max(currLen, self.maxZigZag)
+
+    def _longestZigZag(self, root, last_dir: str, currSum: int) -> unt:
+        self.maxZigZag = max(self.maxZigZag, currSum)
         if root is None:
             return
-        
-        # Restart the directions here
-        if not root.left and last_dir == "right":
-            self._longestZigZag(root.right, "left", 0)
-        if not root.right and last_dir == "left":
-            self._longestZigZag(root.right,"right", currLen + 1)
-        if root.left and last_dir == "left" or root.right and last_dir == "right"::
-            self._longestZigZag(root.left,"right", 0)
-        if root.left and last_dir == "right":
-            self._longestZigZag(root.left,"right", currLen + 1)
+        elif last_dir == "left":
+            self._longestZigZag(root.left, "left", 1)
+            self._longestZigZag(root.right, "right", currSum+1)
+        elif last_dir == "right":
+            self._longestZigZag(root.right, "right", 1)
+            self._longestZigZag(root.left, "left", currSum+1)
             
             
     def longestZigZag(self, root: Optional[TreeNode]) -> int:
         self.maxZigZag = 0
-        self._longestZigZag(root,"left", 0)
+        self._longestZigZag(root, "left", 0)
         self._longestZigZag(root, "right", 0)
-        return self.maxZigZag
-
-        
+        # Mistake: needed a -1 here
+        return self.maxZigZag - 1
